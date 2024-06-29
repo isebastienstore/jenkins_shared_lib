@@ -1,3 +1,3 @@
 def call(){
-    sh './mvnw -ntp checkstyle:check'
+    sh 'mvn -ntp checkstyle:check'
 }

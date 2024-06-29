@@ -1,3 +1,3 @@
 def call(){
-    sh './mvnw -ntp clean -P-webapp'
+    sh 'mvn -ntp clean -P-webapp'
 }
