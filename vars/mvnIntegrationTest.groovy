@@ -1,3 +1,3 @@
 def call(){
-    sh 'mvn verify -DskipUnitTests'
+    sh './mvnw -ntp verify -P-webapp'
 }
