@@ -1,3 +1,3 @@
 def call(){
-    sh 'mvn -ntp checkstyle:check'
+    bat 'mvn -ntp checkstyle:check'
 }

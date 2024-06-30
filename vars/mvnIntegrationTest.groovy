@@ -1,3 +1,3 @@
 def call(){
-    sh 'mvn -ntp verify -P-webapp'
+    bat 'mvn -ntp verify -P-webapp'
 }
