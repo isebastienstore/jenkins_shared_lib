@@ -1,9 +1,9 @@
 
 
 def call(credentialsId){
-
-waitForQualityGate abortPipeline: false, credentialsId: credentialsId
-
+    timeout(time: 1, unit: 'HOURS'){
+        waitForQualityGate abortPipeline: false, credentialsId: credentialsId
+    }
 }
 
 

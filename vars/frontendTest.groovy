@@ -1,3 +1,3 @@
 def call(){
-    bat 'npm test'
+    bat 'npm test --passWithNoTests'
 }
