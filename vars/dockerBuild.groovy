@@ -18,7 +18,7 @@
 def call(String project, String ImageTag, String hubUser, boolean isArm64 = false) {
     def buildCommand = isArm64 ? "npm run java:docker:arm64" : "npm run java:docker"
 
-    sh """
+    bat """
       ${buildCommand}
 
       docker image tag ${hubUser}/${project} ${hubUser}/${project}:${ImageTag}
