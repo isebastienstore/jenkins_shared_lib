@@ -2,7 +2,7 @@
     
      bat """   
       trivy image ${hubUser}/${project}:latest > scan.txt
-      cat scan.txt
+      type scan.txt
      """
  }
 
