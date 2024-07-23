@@ -1,14 +1,14 @@
- def call(String project, String ImageTag, String hubUser){
-     withCredentials([usernamePassword(
-             credentialsId: "docker",
-             usernameVariable: "USER",
-             passwordVariable: "PASS"
-     )]) {
-         bat "docker login -u '$USER' -p '$PASS'"
-     }
-     bat "docker image push ${hubUser}/${project}:${ImageTag}"
-     bat "docker image push ${hubUser}/${project}:latest"   
- }
+// def call(String project, String ImageTag, String hubUser){
+//     withCredentials([usernamePassword(
+//             credentialsId: "docker",
+//             usernameVariable: "USER",
+//             passwordVariable: "PASS"
+//     )]) {
+//         bat "docker login -u '$USER' -p '$PASS'"
+//     }
+//     bat "docker image push ${hubUser}/${project}:${ImageTag}"
+//     bat "docker image push ${hubUser}/${project}:latest"   
+// }
 
 //def call(String aws_account_id, String region, String ecr_repoName){
 //    
@@ -17,3 +17,14 @@
 //     docker push ${aws_account_id}.dkr.ecr.${region}.amazonaws.com/${ecr_repoName}:latest
 //    """
 //}
+
+
+def call(String project, String ImageTag, String hubUser){
+    withCredentials([string(credentialsId: 'docker-hub-password', variable: 'PASS')]) {
+        bat """
+            powershell -Command "\$PASS = Get-Content -Path env:PASS; docker login -u ${hubUser} --password-stdin <<< \$PASS"
+            docker image push ${hubUser}/${project}:${ImageTag}
+            docker image push ${hubUser}/${project}:latest
+        """
+    }
+}
