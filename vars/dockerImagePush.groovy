@@ -22,9 +22,11 @@
 def call(String project, String ImageTag, String hubUser){
     withCredentials([string(credentialsId: 'docker-hub-password', variable: 'PASS')]) {
         bat """
-            powershell -Command "\$PASS = Get-Content -Path env:PASS; docker login -u ${hubUser} --password-stdin <<< \$PASS"
+            powershell -Command "\$pass = \$env:PASS; Set-Content -Path password.txt -Value \$pass; Get-Content -Path password.txt | docker login -u ${hubUser} --password-stdin"
             docker image push ${hubUser}/${project}:${ImageTag}
             docker image push ${hubUser}/${project}:latest
+            del password.txt
         """
     }
 }
+
