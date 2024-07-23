@@ -2,6 +2,7 @@
     
      bat """
       docker rmi ${hubUser}/${project} 
+      docker rmi ${hubUser}/${project}:${ImageTag}
      """
  }
 
