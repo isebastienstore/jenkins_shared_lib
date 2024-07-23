@@ -10,7 +10,6 @@
      bat "docker image push ${hubUser}/${project}:latest"   
  }
 
-
 //def call(String aws_account_id, String region, String ecr_repoName){
 //    
 //    bat """
