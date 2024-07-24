@@ -1,11 +1,22 @@
 
 def call(String aws_account_id, String region, String ecr_repoName){
-    bat """
-        powershell -Command "Write-Output 'Docker Version:'; docker --version; Write-Output 'AWS CLI Version:'; aws --version"
-        powershell -Command "Write-Output 'Obtaining ECR login password...'; \$ecrLoginPassword = aws ecr get-login-password --region ${region}; Write-Output 'Login password obtained'; Write-Output 'Attempting Docker login...'; docker login --username AWS --password \$ecrLoginPassword ${aws_account_id}.dkr.ecr.${region}.amazonaws.com"
-        docker push ${aws_account_id}.dkr.ecr.${region}.amazonaws.com/${ecr_repoName}:latest
-    """
+    withCredentials(
+        [aws(
+            credentialsId: 'aws-credentials-id',
+            accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+            )
+        ]
+    ) {
+        bat """
+            set AWS_ACCESS_KEY_ID=%AWS_ACCESS_KEY_ID%
+            set AWS_SECRET_ACCESS_KEY=%AWS_SECRET_ACCESS_KEY%
+            powershell -Command "Write-Output 'Obtaining ECR login password...'; \$ecrLoginPassword = aws ecr get-login-password --region ${region}; Write-Output 'Login password obtained'; Write-Output 'Attempting Docker login...'; \$ecrLoginPassword | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${region}.amazonaws.com"
+            docker push ${aws_account_id}.dkr.ecr.${region}.amazonaws.com/${ecr_repoName}:latest
+        """
+    }
 }
+
 
 
 
