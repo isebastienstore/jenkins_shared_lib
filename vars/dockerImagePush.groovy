@@ -1,26 +1,10 @@
-
 def call(String aws_account_id, String region, String ecr_repoName){
-    withCredentials(
-        [aws(
-            credentialsId: 'aws-credentials-id',
-            accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
-            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-            )
-        ]
-    ) {
-        sh """
-            export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-            export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-            echo 'Obtaining ECR login password...'
-            ecrLoginPassword=$(aws ecr get-login-password --region ${region})
-            echo 'Login password obtained'
-            echo 'Attempting Docker login...'
-            echo ${ecrLoginPassword} | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${region}.amazonaws.com
-            docker push ${aws_account_id}.dkr.ecr.${region}.amazonaws.com/${ecr_repoName}:latest
-        """
-    }
+    
+    sh """
+     aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${region}.amazonaws.com
+     docker push ${aws_account_id}.dkr.ecr.${region}.amazonaws.com/${ecr_repoName}:latest
+    """
 }
-
 
 
 
