@@ -8,14 +8,19 @@ def call(String aws_account_id, String region, String ecr_repoName){
             )
         ]
     ) {
-        bat """
-            set AWS_ACCESS_KEY_ID=%AWS_ACCESS_KEY_ID%
-            set AWS_SECRET_ACCESS_KEY=%AWS_SECRET_ACCESS_KEY%
-            powershell -Command "Write-Output 'Obtaining ECR login password...'; \$ecrLoginPassword = aws ecr get-login-password --region ${region}; Write-Output 'Login password obtained'; Write-Output 'Attempting Docker login...'; \$ecrLoginPassword | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${region}.amazonaws.com"
+        sh """
+            export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+            export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+            echo 'Obtaining ECR login password...'
+            ecrLoginPassword=$(aws ecr get-login-password --region ${region})
+            echo 'Login password obtained'
+            echo 'Attempting Docker login...'
+            echo ${ecrLoginPassword} | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${region}.amazonaws.com
             docker push ${aws_account_id}.dkr.ecr.${region}.amazonaws.com/${ecr_repoName}:latest
         """
     }
 }
+
 
 
 
