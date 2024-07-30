@@ -1,15 +1,16 @@
 def call(String aws_account_id, String region, String ecr_repoName){
     
     sh """
-     aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${region}.amazonaws.com
-     docker push ${aws_account_id}.dkr.ecr.${region}.amazonaws.com/${ecr_repoName}:latest
+        export AWS_ACCESS_KEY_ID=${ACCESS_KEY}
+        export AWS_SECRET_ACCESS_KEY=${SECRET_KEY}
+        aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${region}.amazonaws.com
+        docker push ${aws_account_id}.dkr.ecr.${region}.amazonaws.com/${ecr_repoName}:latest
     """
 }
 
 
 
 
-//Version valide pour docker hub
 
 //def call(String project, String ImageTag, String hubUser){
 //    withCredentials([string(credentialsId: 'docker-hub-password', variable: 'PASS')]) {
