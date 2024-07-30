@@ -1,3 +1,3 @@
 def call(){
-    bat 'mvn -ntp clean -P-webapp'
+    sh './mvnw -ntp clean -P-webapp'
 }
