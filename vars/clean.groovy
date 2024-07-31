@@ -1,6 +1,5 @@
 def call(){
-    sh """
-        chmod +x ./mvnw
+    bat """
         ./mvnw -ntp clean -P-webapp
     """  
 }
