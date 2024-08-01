@@ -1,6 +1,6 @@
 def call(){
     try {
-        sh './mvnw -ntp verify -P-webapp'
+        bat './mvnw -ntp verify -P-webapp'
     } catch (err) {
         throw err
     } finally {

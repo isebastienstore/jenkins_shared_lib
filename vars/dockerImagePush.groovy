@@ -1,8 +1,8 @@
 def call(String aws_account_id, String region, String ecr_repoName){
     
-    sh """
-        export AWS_ACCESS_KEY_ID=${ACCESS_KEY}
-        export AWS_SECRET_ACCESS_KEY=${SECRET_KEY}
+    bat """
+        set AWS_ACCESS_KEY_ID=${ACCESS_KEY}
+        set AWS_SECRET_ACCESS_KEY=${SECRET_KEY}
         aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${region}.amazonaws.com
         docker push ${aws_account_id}.dkr.ecr.${region}.amazonaws.com/${ecr_repoName}:latest
     """
