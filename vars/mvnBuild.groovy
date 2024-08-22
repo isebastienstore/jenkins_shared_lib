@@ -1,3 +1,4 @@
 def call(){
-    bat './mvnw clean install'
+    bat './mvnw -Pprod clean verify -DskipTests
+'
 }
