@@ -1,4 +1,5 @@
 def call(){
-    bat './mvnw -Pprod clean verify -DskipTests'
-'
+    bat """
+        ./mvnw -Pprod clean verify -DskipTests
+        """
 }
