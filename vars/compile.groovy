@@ -1,3 +1,3 @@
 def call(){
-    bat 'mvn clean compile'
+    sh 'mvn clean compile'
 }

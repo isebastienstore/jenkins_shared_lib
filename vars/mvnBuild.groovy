@@ -1,5 +1,5 @@
 def call(){
-    bat """
+    sh """
         ./mvnw -Pprod clean verify -DskipTests
         """
 }
